@@ -141,7 +141,7 @@
     "typescript": "~2.7.0"
   },
   "scripts": {
-    "start": "npm-run-all --parallel prod nggulp",
+    "start": "npm-run-all --parallel prod startgulp",
     "devstart": "npm-run-all --parallel open:client dev",
     "open:client": "ng serve --open",
     "build:prod": "ng build --prod --aot=false --env=prod",

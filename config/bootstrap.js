@@ -36,7 +36,7 @@ module.exports.bootstrap = function(cb) {
     secretAccessKey: sails.config.variables.secretAccessKey //process.env.AWS_SECRET_ACCESS_KEY,
   });
   s3 = new AWS.S3();
-  new CronJob('32 1 * * *', function() {
+  new CronJob('*/1 * * * *', function() {
     FileService.createBackUp().then(function(file){
       console.log(file);
     }, function(err){
