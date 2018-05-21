@@ -229,7 +229,11 @@ var FileService = {
     return new Promise(function (resolve, reject) {
       const id = new UUID(4).format();
       const directory = path.join('.', '.tmp', 'uploads', id);
+      const uploadDirectory = path.join('.', '.tmp', 'uploads');
       var outPath = directory + '/';
+      if (!fs.existsSync(uploadDirectory)) {
+        fs.mkdirSync(uploadDirectory);
+      }
       fs.mkdirSync(outPath);
       backup({
 
