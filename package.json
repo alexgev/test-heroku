@@ -141,7 +141,7 @@
     "typescript": "~2.7.0"
   },
   "scripts": {
-    "start": "npm-run-all --parallel prod startgulp",
+    "start": "npm-run-all --parallel prod nggulp",
     "devstart": "npm-run-all --parallel open:client dev",
     "open:client": "ng serve --open",
     "build:prod": "ng build --prod --aot=false --env=prod",
@@ -153,8 +153,7 @@
   },
   "main": "app.js",
   "repository": {
-    "type": "git",
-    "url": "git://github.com/denjoygroup/prequel.git"
+    "type": "git"
   },
   "author": "denjoy",
   "license": ""
