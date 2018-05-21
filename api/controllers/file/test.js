@@ -21,7 +21,12 @@ module.exports = {
     var directory = path.join('.', '.tmp', 'uploads', Date.now() + '');
     console.log('toSave', directory);
     console.log('dirname', __dirname);
-    fs.mkdirSync(directory);
+    try {
+      fs.mkdirSync(directory);
+
+    } catch(e) {
+      if (e) return exits.success({error: e, directory: directory});
+    }
     return exits.success(directory);
 
   }
