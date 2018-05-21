@@ -1,71 +1,68 @@
 /**
- * badRequest.js
+ * 400 (Bad Request) Handler
  *
- * A custom response.
+ * Usage:
+ * return res.badRequest();
+ * return res.badRequest(data);
+ * return res.badRequest(data, 'some/specific/badRequest/view');
  *
- * Example usage:
+ * e.g.:
  * ```
- *     return res.badRequest();
- *     // -or-
- *     return res.badRequest(optionalData);
- * ```
- *
- * Or with actions2:
- * ```
- *     exits: {
- *       somethingHappened: {
- *         responseType: 'badRequest'
- *       }
- *     }
- * ```
- *
- * ```
- *     throw 'somethingHappened';
- *     // -or-
- *     throw { somethingHappened: optionalData }
+ * return res.badRequest(
+ *   'Please choose a valid `password` (6-12 characters)',
+ *   'trial/signup'
+ * );
  * ```
  */
+module.exports = function badRequest(data, options) {
 
-module.exports = function badRequest(optionalData) {
-  const customError = {             
-    error: {                         
-      status: 400,                   
-      description: optionalData      
-    }                                
-  }    // Get access to `req` and `res`
   var req = this.req;
   var res = this.res;
+  var sails = req._sails;
 
-  // Define the status code to send in the response.
-  var statusCodeToSet = 200;
+  res.status(200);
 
-  // If no data was provided, use res.sendStatus().
-  if (optionalData === undefined) {
-    sails.log.info('Ran custom response: res.badRequest()');
-    return res.sendStatus(statusCodeToSet);
+  if (data !== undefined) {
+    sails.log.verbose('Sending 400 ("Bad Request") response: \n', data);
   }
-  // Else if the provided data is an Error instance, if it has
-  // a toJSON() function, then always run it and use it as the
-  // response body to send.  Otherwise, send down its `.stack`,
-  // except in production use res.sendStatus().
-  else if (_.isError(optionalData)) {
-    sails.log.info('Custom response `res.badRequest()` called with an Error:', optionalData);
+  else sails.log.verbose('Sending 400 ("Bad Request") response');
 
-    // If the error doesn't have a custom .toJSON(), use its `stack` instead--
-    // otherwise res.json() would turn it into an empty dictionary.
-    // (If this is production, don't send a response body at all.)
-    if (!_.isFunction(optionalData.toJSON)) {
-      if (process.env.NODE_ENV === 'production') {
-        return res.sendStatus(statusCodeToSet);
-      }
-      else {
-        return res.status(statusCodeToSet).send(optionalData.stack);
+
+  if (sails.config.environment === 'production' && sails.config.keepResponseErrors !== true) {
+    data = undefined;
+  }
+
+
+  if (req.wantsJSON || sails.config.hooks.views === false) {
+    var myError = {
+      error: {
+        code: 400,
+        description: JSON.stringify(data)
       }
     }
-  }
-  // Set status code and send response data.
-  else {
-    return res.status(statusCodeToSet).send(customError);
+    return res.jsonx(myError);
   }
 
+
+  options = (typeof options === 'string') ? {view: options} : options || {};
+
+  var viewData = data;
+  if (!(viewData instanceof Error) && 'object' == typeof viewData) {
+    try {
+      viewData = require('util').inspect(data, {depth: null});
+    }
+    catch (e) {
+      viewData = undefined;
+    }
+  }
+
+
+  if (options.view) {
+    return res.view(options.view, {data: viewData, title: 'Bad Request'});
+  }
+
+
+  else return res.guessView({data: viewData, title: 'Bad Request'}, function couldNotGuessView() {
+    return res.jsonx(data);
+  });
 };

@@ -1,0 +1,27 @@
+
+.auth {
+  margin-left: 120px;
+  margin-right: 120px;
+}
+/*main {*/
+  /*padding-top: 30px;*/
+/*}*/
+.nav-border {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 75px;
+  height: 1px;
+}
+.table thead .ng2-smart-titles th span {
+  color: #3aa6fe;
+}
+.icon {
+  height: 40px;
+}
+.icon__img {
+  max-height: 40px;
+}
+.as-no-first {
+  padding-left: inherit!important;
+}

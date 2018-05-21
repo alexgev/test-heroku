@@ -1,0 +1,14 @@
+<div class="main-wrapper" [class.notification-connect-main]="isDisconnect">
+  <page-top *ngIf="authorized"></page-top>
+  <socket></socket>
+  <sidebar *ngIf="authorized"></sidebar>
+  <main [ngClass]="{auth: !authorized}">
+    <preloader [hidden]="!loader.isLoading"></preloader>
+    <div class="main-content" [hidden]="loader.isLoading">
+      <div class="container-fluid">
+        <app-breadcrumb *ngIf="authorized"></app-breadcrumb>
+        <router-outlet></router-outlet>
+      </div>
+    </div>
+  </main>
+</div>

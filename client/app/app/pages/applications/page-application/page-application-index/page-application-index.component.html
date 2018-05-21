@@ -1,0 +1,90 @@
+<div class="row">
+  <div class="col-120 col-xl-60 mb-5">
+    <div class="card">
+      <div class="card-body">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+          <h2 class="mb-0">Active Content Units</h2>
+          <a [routerLink]="['content']" class="btn btn-primary btn-sm btn-shadow">Content <i
+            class="fas fa-sign-in-alt ml-2"></i></a>
+        </div>
+        <preloader [class]="'height-200'" [hidden]="!isLoadingActive"></preloader>
+        <system-message [message]="'Sorry, no data'" [hidden]="isLoadingActive || activeContentUnits"></system-message>
+        <table class="table" *ngIf="!isLoadingActive && activeContentUnits">
+          <thead>
+          <tr class="border-bottom border-primary">
+            <th class="pl-0 bg-transparent text-secondary">Status</th>
+            <th class="pr-0 bg-transparent text-secondary">Value</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr *ngFor="let item of activeContentUnits">
+            <td class="pl-0">{{item.name}}</td>
+            <td class="pr-0">{{item.count}}</td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+  <div class="col-120 col-xl-60 mb-5">
+    <div class="card">
+      <div class="card-body">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+          <h2 class="mb-0">Active Properties</h2>
+          <a [routerLink]="['property']" class="btn btn-primary btn-sm btn-shadow">Properties<i
+            class="fas fa-sign-in-alt ml-2"></i></a>
+        </div>
+        <preloader [class]="'height-200'" [hidden]="!isLoadingActive"></preloader>
+        <system-message [message]="'Sorry, no data'" [hidden]="isLoadingActive || activeProperties"></system-message>
+        <table class="table" *ngIf="!isLoadingActive && activeProperties">
+          <thead>
+          <tr class="border-bottom border-primary">
+            <th class="pl-0 bg-transparent text-secondary">Status</th>
+            <th class="pr-0 bg-transparent text-secondary">Value</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr *ngFor="let item of activeProperties">
+            <td class="pl-0">{{item.name}}</td>
+            <td class="pr-0">{{item.count}}</td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+  <div class="col-120 mb-5">
+    <div class="card">
+      <div class="card-body">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+          <h2 class="mb-0">Request Stat</h2>
+          <daterangepicker (setDate)="sendRequest($event)"></daterangepicker>
+        </div>
+        <preloader [class]="'height-200'" [hidden]="!isLoadingRequest"></preloader>
+        <system-message [message]="'Sorry, no data'"
+                        [hidden]="isLoadingRequest || (propertyBundles && contentBundles)"></system-message>
+        <table class="table" *ngIf="!isLoadingRequest && (propertyBundles && contentBundles)">
+          <thead>
+          <tr class="border-bottom border-primary">
+            <th class="pl-0 bg-transparent text-secondary">Bundle</th>
+            <th class="pl-0 bg-transparent text-secondary">Status</th>
+            <th class="pr-0 bg-transparent text-secondary">Value</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr *ngFor="let bundle of contentBundles; let first = first;">
+            <td class="pl-0" *ngIf="first" rowspan="3">Content Bundles</td>
+            <td class="pl-0">{{bundle.name}}</td>
+            <td class="pr-0">{{bundle.count}}</td>
+          </tr>
+          <tr *ngFor="let bundle of propertyBundles; let first = first;">
+            <td class="pl-0" *ngIf="first" rowspan="3">Properties Bundles</td>
+            <td class="pl-0">{{bundle.name}}</td>
+            <td class="pr-0">{{bundle.count}}</td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>

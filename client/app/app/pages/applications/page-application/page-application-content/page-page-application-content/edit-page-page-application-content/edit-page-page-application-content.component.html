@@ -1,0 +1,133 @@
+<div class="row justify-content-center-dis">
+  <div class="col-xxl-40 col-xl-70">
+    <div class="form-group">
+      <a class="btn btn-warning btn-sm"
+         [routerLink]="['/apps', 'page', appId, 'content', 'page', contentBundleId]">Back</a>
+    </div>
+    <div class="card">
+      <div class="card-header">
+        <h4 class="mb-0">Edit Content Unit</h4>
+      </div>
+      <div class="card-body">
+        <preloader *ngIf="_loader.isLoading" [class]="'height-300'"></preloader>
+        <form [formGroup]="editContentUnitForm" (ngSubmit)="onSubmit(editContentUnitForm)" *ngIf="!_loader.isLoading">
+          <div class="form-group">
+            <label>
+              Files
+            </label><br>
+            <a href="{{ contentUnit.data.Location }}" *ngIf="contentUnit.data.id" class="d-flex align-items-center">
+              <i class="fas fa-download mr-2"></i>
+              <span class="text-dotted">{{ contentUnit.data.viewName }}</span>
+            </a><br>
+            <a href="{{ contentUnit.cryptedData.Location }}"
+               *ngIf="contentUnit.cryptedData && contentUnit.cryptedData.id" class="d-flex align-items-center">
+              <i class="fas fa-download mr-2"></i>
+              <span class="text-dotted">{{ contentUnit.cryptedData.viewName }}</span>
+            </a>
+          </div>
+          <div class="form-group">
+            <label for="name">
+              Name: <span class="text-danger fs-20">*</span>
+            </label>
+            <input class="form-control" [(ngModel)]="contentUnit.name" id="name" formControlName="name" type="text"
+                   name="name" placeholder="Enter the name" ngbTooltip appValidate required>
+          </div>
+          <div class="form-group">
+            <label for="type">
+              Type:
+            </label>
+            <input class="form-control" [(ngModel)]="contentUnit.type" id="type" formControlName="type" type="text"
+                   name="type" placeholder="Enter the type" ngbTooltip appValidate>
+          </div>
+          <div class="form-group">
+            <label for="tags">
+              Tags:
+            </label>
+            <input class="form-control" [(ngModel)]="contentUnit.tags" id="tags" formControlName="tags" type="text"
+                   name="tags" placeholder="Enter tags" ngbTooltip appValidate>
+          </div>
+          <div class="form-group">
+            <label for="order">
+              Order:
+            </label>
+            <input class="form-control" [(ngModel)]="contentUnit.order" id="order" formControlName="order" type="text"
+                   name="order" placeholder="Enter an order" ngbTooltip appValidate>
+          </div>
+          <div class="form-group">
+            <label for="version">
+              Version:
+            </label>
+            <input class="form-control" [(ngModel)]="contentUnit.version" id="version" formControlName="version"
+                   type="text" name="version" placeholder="Enter the version" ngbTooltip appValidate>
+          </div>
+          <div class="form-group">
+            <label for="apiLevel">
+              ApiLevel:
+            </label>
+            <input class="form-control" [(ngModel)]="contentUnit.apiLevel" id="apiLevel" formControlName="apiLevel"
+                   type="text" name="apiLevel" placeholder="Enter the api level" ngbTooltip appValidate>
+          </div>
+          <div class="form-group">
+            <label for="priceLevel">
+              Price level:
+            </label>
+            <input class="form-control" [(ngModel)]="contentUnit.priceLevel" id="priceLevel"
+                   formControlName="priceLevel" type="text" name="priceLevel" placeholder="Enter the price level"
+                   ngbTooltip appValidate>
+          </div>
+          <div class="form-group">
+            <label for="status">
+              Status: <span class="text-danger fs-20">*</span>
+            </label>
+            <div class="select">
+              <select class="form-control" [(ngModel)]="contentUnit.status" *ngIf="statuses.length > 0" id="status"
+                      formControlName="status" name="status" ngbTooltip appValidate required>
+                <option value="" disabled selected class="d-none">Choose your status</option>
+                <option *ngFor="let status of statuses" [value]="status.id">{{ status.name }}</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-group">
+            <label>
+              Icon
+            </label>
+            <div class="row align-items-center justify-content-between">
+              <div class="col-40">
+                <div class="row align-items-center height-100" *ngIf="contentUnit.icon">
+                  <div class="col-120">
+                    <div class="d-flex align-items-center">
+                      <div class="icon">
+                        <img class="icon__img" src="{{ icon.Location }}" alt="{{ contentUnit.name }} - icon">
+                        <!-- <span class="ml-2">{{ icon.Key }}</span> -->
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-120">
+                    <button class="btn btn-danger btn-shadow btn-sm" type="button" (click)="changeIcon = true">Upload
+                    </button>
+                  </div>
+                </div>
+              </div>
+              <div class="col">
+                <my-dropzone *ngIf="changeIcon"></my-dropzone>
+              </div>
+            </div>
+          </div>
+          <div class="row align-items-center mt-4">
+            <div class="col-60">
+              <div class="form-check">
+                <input class="form-check-input" [(ngModel)]="contentUnit.active" id="active" formControlName="active"
+                       type="checkbox" name="active">
+                <label class="form-check-label mb-0" for="active">Active</label>
+              </div>
+            </div>
+            <div class="col-60">
+              <input class="btn btn-secondary btn-block btn-shadow" type="submit" formControlName="submit"
+                     name="submit">
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,61 @@
+<div class="row justify-content-center-dis">
+  <div class="col-xxl-40 col-xl-70">
+    <div class="form-group">
+      <a class="btn btn-warning btn-sm" [routerLink]="['/users']">Back</a>
+    </div>
+    <div class="card">
+      <div class="card-header">
+        <h4 class="mb-0">Edit user</h4>
+      </div>
+      <div class="card-body">
+        <!-- <div class="row"> -->
+        <preloader *ngIf="_loader.isLoading" [class]="'height-300'"></preloader>
+        <form [formGroup]="editUserForm" (ngSubmit)="onSubmit(editUserForm)" *ngIf="!_loader.isLoading">
+          <div class="form-group">
+            <label for="name">
+              Name: <span class="text-danger fs-20">*</span>
+            </label>
+            <input class="form-control" id="name" [(ngModel)]="data.user.name" formControlName="name" type="text"
+                   name="name" placeholder="Enter the name" ngbTooltip appValidate required>
+          </div>
+          <div class="form-group">
+            <label for="email">
+              Email: <span class="text-danger fs-20">*</span>
+            </label>
+            <input class="form-control" id="email" [(ngModel)]="data.user.email" formControlName="email" type="email"
+                   name="email" placeholder="Enter the email" ngbTooltip appValidate required>
+          </div>
+          <!-- <div class="form-group">
+            <label for="password">
+              password:
+            </label>
+            <input class="form-control" [(ngModel)]="user.encryptedPassword" formControlName="password" type="password" name="password" required>
+          </div> -->
+          <div class="form-group">
+            <label for="role">
+              Role: <span class="text-danger fs-20">*</span>
+            </label>
+            <select class="form-control" id="role" [(ngModel)]="data.role.id" formControlName="role" name="role"
+                    ngbTooltip appValidate required>
+              <option *ngFor="let role of roles" [value]="role.id">{{ role.viewName }}</option>
+            </select>
+          </div>
+          <div class="row align-items-center mt-4">
+            <div class="col-60">
+              <div class="form-check">
+                <input class="form-check-input" id="active" [(ngModel)]="data.user.active" formControlName="active"
+                       type="checkbox" name="active">
+                <label class="form-check-label mb-0" for="active">Active</label>
+              </div>
+            </div>
+            <div class="col-60">
+              <input class="btn btn-secondary btn-block btn-shadow" type="submit" formControlName="submit"
+                     name="submit">
+            </div>
+          </div>
+        </form>
+        <!-- </div> -->
+      </div>
+    </div>
+  </div>
+</div>

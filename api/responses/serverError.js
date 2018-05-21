@@ -1,73 +1,78 @@
 /**
- * serverError.js
+ * 500 (Server Error) Response
  *
- * A custom response.
+ * Usage:
+ * return res.serverError();
+ * return res.serverError(err);
+ * return res.serverError(err, 'some/specific/error/view');
  *
- * Example usage:
- * ```
- *     return res.serverError();
- *     // -or-
- *     return res.serverError(optionalData);
- * ```
- *
- * Or with actions2:
- * ```
- *     exits: {
- *       somethingHappened: {
- *         responseType: 'serverError'
- *       }
- *     }
- * ```
- *
- * ```
- *     throw 'somethingHappened';
- *     // -or-
- *     throw { somethingHappened: optionalData }
- * ```
+ * NOTE:
+ * If something throws in a policy or controller, or an internal
+ * error is encountered, Sails will call `res.serverError()`
+ * automatically.
  */
+module.exports = function serverError(data, options) {
 
-module.exports = function serverError(optionalData) {
-  const customError = {             // <-
-    error: {                        // 
-      status: 500,                  // 
-      description: optionalData     // 
-    }                               // 
-  }                                 // <-
-
-  // Get access to `req` and `res`
   var req = this.req;
   var res = this.res;
+  var sails = req._sails;
 
-  // Define the status code to send in the response.
-  var statusCodeToSet = 200;
+  res.status(200);
 
-  // If no data was provided, use res.sendStatus().
-  if (optionalData === undefined) {
-    sails.log.info('Ran custom response: res.serverError()');
-    return res.sendStatus(statusCodeToSet);
+  if (data !== undefined) {
+    sails.log.error('Sending 500 ("Server Error") response: \n', data);
   }
-  // Else if the provided data is an Error instance, if it has
-  // a toJSON() function, then always run it and use it as the
-  // response body to send.  Otherwise, send down its `.stack`,
-  // except in production use res.sendStatus().
-  else if (_.isError(optionalData)) {
-    sails.log.info('Custom response `res.serverError()` called with an Error:', optionalData);
+  else sails.log.error('Sending empty 500 ("Server Error") response');
 
-    // If the error doesn't have a custom .toJSON(), use its `stack` instead--
-    // otherwise res.json() would turn it into an empty dictionary.
-    // (If this is production, don't send a response body at all.)
-    if (!_.isFunction(optionalData.toJSON)) {
-      if (process.env.NODE_ENV === 'production') {
-        return res.sendStatus(statusCodeToSet);
-      }
-      else {
-        return res.status(statusCodeToSet).send(optionalData.stack);
+
+  if (sails.config.environment === 'production' && sails.config.keepResponseErrors !== true) {
+    data = undefined;
+  }
+
+
+  if (req.wantsJSON || sails.config.hooks.views === false) {
+    var myError = {
+      error: {
+        code: 500,
+        description: JSON.stringify(data)
       }
     }
-  }
-  // Set status code and send response data.
-  else {
-    return res.status(statusCodeToSet).send(customError);   // <-
+    return res.jsonx(myError);
   }
 
+
+  options = (typeof options === 'string') ? {view: options} : options || {};
+
+  var viewData = data;
+  if (!(viewData instanceof Error) && 'object' == typeof viewData) {
+    try {
+      viewData = require('util').inspect(data, {depth: null});
+    }
+    catch (e) {
+      viewData = undefined;
+    }
+  }
+
+
+  if (options.view) {
+    return res.view(options.view, {data: viewData, title: 'Server Error'});
+  }
+
+
+  else return res.view('500', {data: viewData, title: 'Server Error'}, function (err, html) {
+
+    if (err) {
+
+
+      if (err.code === 'E_VIEW_FAILED') {
+        sails.log.verbose('res.serverError() :: Could not locate view for error page (sending JSON instead).  Details: ', err);
+      }
+
+      else {
+        sails.log.warn('res.serverError() :: When attempting to render error page view, an error occured (sending JSON instead).  Details: ', err);
+      }
+      return res.jsonx(data);
+    }
+    return res.send(html);
+  });
 };

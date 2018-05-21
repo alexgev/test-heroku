@@ -1,0 +1,23 @@
+<div class="row">
+  <div class="col-120">
+    <div class="card">
+      <div class="card-header d-flex justify-content-between align-items-center">
+        <h4 class="mb-0">Properties Bundles</h4>
+        <div class="form-group mb-0">
+          <a class="btn btn-secondary btn-shadow" [routerLink]="['create']"
+             *ngIf="_permissionsService.haveRightToDisplayComponent('CreatePageApplicationPropertyComponent')">
+            <i class="fa fa-plus pr-2"></i>
+            Add Properties Bundle
+          </a>
+        </div>
+      </div>
+      <div class="card-body">
+        <preloader [class]="'height-200'" [hidden]="!_loader.isLoading"></preloader>
+        <system-message [message]="messageTable"
+                        [hidden]="_loader.isLoading || data.propertyBundles.length"></system-message>
+        <ng2-smart-table class="table-responsive" *ngIf="!_loader.isLoading && data.propertyBundles.length"
+                         [settings]="settings" [source]="data.propertyBundles"></ng2-smart-table>
+      </div>
+    </div>
+  </div>
+</div>

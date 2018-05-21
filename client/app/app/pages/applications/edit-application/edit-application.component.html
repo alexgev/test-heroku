@@ -1,0 +1,39 @@
+<div class="row justify-content-center-dis">
+  <div class="col-xxl-40 col-xl-70">
+    <div class="form-group">
+      <a class="btn btn-warning btn-sm" [routerLink]="['/apps']">Back</a>
+    </div>
+    <div class="card">
+      <div class="card-header">
+        <h4 class="mb-0">Edit Application</h4>
+      </div>
+      <div class="card-body">
+        <!-- <div class="row"> -->
+        <preloader *ngIf="_loader.isLoading" [class]="'height-100'"></preloader>
+        <form [formGroup]="editApplicationForm" (ngSubmit)="onSubmit(editApplicationForm)" *ngIf="!_loader.isLoading">
+          <div class="form-group">
+            <label for="name">
+              Name: <span class="text-danger fs-20">*</span>
+            </label>
+            <input class="form-control" id="name" [(ngModel)]="application.name" formControlName="name" type="text"
+                   name="name" ngbTooltip appValidate required>
+          </div>
+          <div class="row align-items-center mt-4">
+            <div class="col-60">
+              <div class="form-check">
+                <input class="form-check-input" id="active" [(ngModel)]="application.active" formControlName="active"
+                       type="checkbox" name="active">
+                <label class="form-check-label mb-0" for="active">Active</label>
+              </div>
+            </div>
+            <div class="col-60">
+              <input class="btn btn-secondary btn-block btn-shadow" type="submit" formControlName="submit"
+                     name="submit">
+            </div>
+          </div>
+        </form>
+        <!-- </div> -->
+      </div>
+    </div>
+  </div>
+</div>

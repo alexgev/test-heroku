@@ -1,0 +1,38 @@
+<div class="row justify-content-center">
+  <div class="col-120 col-sm-100 col-md-80 col-lg-7 col-xl-50 col-xxl-40">
+    <div class="card panel medium-panel ">
+      <div class="card-header d-flex justify-content-center align-items-center">
+        <h2 class="mb-0">Sign In</h2>
+      </div>
+      <div class="card-body">
+        <logo [theme]="'dark'"></logo>
+        <form [formGroup]="loginForm" (ngSubmit)="onSubmitLoginForm(loginForm)" class="login__form">
+          <fieldset>
+            <div class="form-group">
+              <label>Email:</label>
+              <input type="text" class="form-control login-icon"
+                     placeholder="Email"
+                     name="email"
+                     formControlName="email" ngbTooltip appValidate required>
+            </div>
+            <div class="form-group">
+              <label>Password:</label>
+              <input type="password" class="form-control password-icon"
+                     placeholder="Password"
+                     name="password"
+                     formControlName="password" ngbTooltip appValidate required>
+            </div>
+            <div class="form-group d-flex justify-content-between align-items-right">
+              <!--<a class="text-dark op-4" routerLink="/restore">Forgot Password?</a>-->
+            </div>
+            <div class="control-group form-group mb-0">
+              <input class="btn btn-primary btn-lg btn-shadow w-100 mb-3" formControlName="submit" type="submit"
+                     style="float: right">
+              <!--<a class="btn btn-outline-dark btn-lg w-100" routerLink="/signup">Зарегистрироваться</a>-->
+            </div>
+          </fieldset>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

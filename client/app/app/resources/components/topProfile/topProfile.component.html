@@ -1,0 +1,19 @@
+<div class="dropdown-user dropdown-menu dropdown-menu-right">
+  <div class="dropdown-header" *ngIf="collaboratorsChangeVisible">
+    <p class="dropdown-user__label">Change the role:</p>
+    <div *ngFor="let collaborator of this.rootScope.collaborators">
+      <a class="dropdown-user__link-company link-hover" href="#"
+         (click)="changeThisCollaborator(collaborator)">
+        <span class="dotted-link op-7">{{collaborator.role.viewName}}</span>
+      </a>
+    </div>
+  </div>
+  <a class="dropdown-item d-flex align-items-center" [routerLink]="['profile']">
+    <span class="badge badge-circle badge-sm mr-3"><i class="fas fa-cogs"></i></span>
+    <span>My Profile</span>
+  </a>
+  <a class="dropdown-item d-flex align-items-center" href="#" (click)="logOut($event)">
+    <span class="badge badge-circle badge-sm mr-3"><i class="fas fa-power-off"></i></span>
+    <span>Log Out</span>
+  </a>
+</div>

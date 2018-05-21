@@ -1,0 +1,9 @@
+<div class="input-group"
+     daterangepicker (selected)="selectedDate($event, mainInput)"
+     (applyDaterangepicker)="onSetDate($event)">
+    <span class="form-control uneditable-input date-icon"
+          class="form-control-lg border border-primary bg-white text-primary"
+          name="daterange">
+        {{ mainInput.startDate | date:'yyyy-MM-dd' }} - {{ mainInput.endDate | date:'yyyy-MM-dd' }}
+    </span>
+</div>

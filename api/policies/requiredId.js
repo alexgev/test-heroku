@@ -1,7 +1,7 @@
-module.exports = async function (req, res, proceed) {
-	if (req.param('id')) {
-		return proceed();
-	}
-	return res.badRequest("Id is required");
-
+module.exports = function (req, res, next) {
+  if (req.param('id')) {
+    next();
+  } else {
+    res.badRequest('Id is required');
+  }
 };

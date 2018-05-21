@@ -7,11 +7,9 @@
  * allows for some pretty neat custom transports/adapters for log messages)
  *
  * For more information on the Sails logger, check out:
- * https://sailsjs.com/docs/concepts/logging
+ * http://sailsjs.org/#!/documentation/concepts/Logging
  */
-
 module.exports.log = {
-
   /***************************************************************************
   *                                                                          *
   * Valid `level` configs: i.e. the minimum log level to capture with        *
@@ -23,7 +21,5 @@ module.exports.log = {
   * You may also set the level to "silent" to suppress all logs.             *
   *                                                                          *
   ***************************************************************************/
-
   // level: 'info'
-
 };

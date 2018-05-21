@@ -1,0 +1,75 @@
+<div class="row justify-content-center-dis">
+  <div class="col-xxl-40 col-xl-70">
+    <div class="form-group">
+      <a class="btn btn-warning btn-sm" [routerLink]="['/users']">Back</a>
+    </div>
+    <div class="card">
+      <div class="card-header">
+        <h4 class="mb-0">Add user</h4>
+      </div>
+      <div class="card-body">
+        <div class="w-50">
+          <!--<ng-select class="btn border border-primary btn-block btn-lg text-left caret-down dropdown-toggle"-->
+          <!--[items]="cities"-->
+          <!--(change)="select()"-->
+          <!--multiple="true"-->
+          <!--bindLabel="name"-->
+          <!--placeholder="Группа терминалов">-->
+          <!--</ng-select>-->
+          <!--<ng-select class="btn border border-primary btn-block btn-lg text-left caret-down dropdown-toggle"-->
+          <!--[items]="cities"-->
+          <!--(change)="select()"-->
+          <!--bindLabel="name"-->
+          <!--placeholder="Группа терминалов">-->
+          <!--</ng-select>-->
+        </div>
+        <!-- <div class="row"> -->
+        <form [formGroup]="createUserForm" (ngSubmit)="onSubmit(createUserForm)">
+          <div class="form-group">
+            <label for="name">
+              Name: <span class="text-danger fs-20">*</span>
+            </label>
+            <input class="form-control" id="name" formControlName="name" type="text" name="name"
+                   placeholder="Enter the name" ngbTooltip appValidate required>
+          </div>
+          <div class="form-group">
+            <label for="email">
+              Email: <span class="text-danger fs-20">*</span>
+            </label>
+            <input class="form-control" id="email" formControlName="email" type="email" name="email"
+                   placeholder="Enter the email" ngbTooltip appValidate required>
+          </div>
+          <div class="form-group">
+            <label for="password">
+              Password: <span class="text-danger fs-20">*</span>
+            </label>
+            <input class="form-control" id="password" formControlName="password" type="password" name="password"
+                   placeholder="Enter the password" ngbTooltip appValidate required>
+          </div>
+          <div class="form-group">
+            <label for="role">
+              Role: <span class="text-danger fs-20">*</span>
+            </label>
+            <div class="select">
+              <select class="form-control" id="role" formControlName="role" name="role" ngbTooltip appValidate required>
+                <option value="" disabled selected class="d-none">Choose your role</option>
+                <option *ngFor="let role of roles" [value]="role.id">{{ role.viewName }}</option>
+              </select>
+            </div>
+          </div>
+          <div class="row align-items-center mt-4">
+            <div class="col-60">
+              <div class="form-check">
+                <input class="form-check-input" id="active" formControlName="active" type="checkbox" name="active">
+                <label class="form-check-label mb-0" for="active">Active</label>
+              </div>
+            </div>
+            <div class="col-60">
+              <input class="btn btn-secondary btn-block btn-shadow" formControlName="submit" type="submit">
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

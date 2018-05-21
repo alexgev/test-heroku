@@ -1,0 +1,70 @@
+<div class="row justify-content-center-dis">
+  <div class="col-xxl-40 col-xl-70">
+    <div class="form-group">
+      <a class="btn btn-warning btn-sm" [routerLink]="['/apps', 'page', appId, 'content']">Back</a>
+    </div>
+    <div class="card">
+      <div class="card-header">
+        <h4 class="mb-0">Add Content Bundle</h4>
+      </div>
+      <div class="card-body">
+        <!-- <div class="row"> -->
+        <form [formGroup]="createContentBundleForm" (ngSubmit)="onSubmit(createContentBundleForm)">
+          <div class="form-group">
+            <label for="name">
+              Name: <span class="text-danger fs-20">*</span>
+            </label>
+            <input class="form-control" id="name" formControlName="name" type="text" name="name"
+                   placeholder="Enter the name" ngbTooltip appValidate required>
+          </div>
+          <div class="form-group">
+            <label for="displayName">
+              Display name:
+            </label>
+            <input class="form-control" id="displayName" formControlName="displayName" type="text" name="displayName"
+                   placeholder="Enter the display name" ngbTooltip appValidate>
+          </div>
+          <div class="form-group">
+            <label for="type">
+              Type:
+            </label>
+            <input class="form-control" id="type" formControlName="type" type="text" name="type"
+                   placeholder="Enter the type" ngbTooltip appValidate>
+          </div>
+          <div class="form-group">
+            <label for="tags">
+              Tags:
+            </label>
+            <input class="form-control" id="tags" formControlName="tags" type="text" name="tags"
+                   placeholder="Enter tags" ngbTooltip appValidate>
+          </div>
+          <div class="form-group">
+            <label for="order">
+              Order:
+            </label>
+            <input class="form-control" id="order" formControlName="order" type="text" name="order"
+                   placeholder="Enter an order" ngbTooltip appValidate>
+          </div>
+          <div class="form-group">
+            <label>
+              Icon
+            </label>
+            <my-dropzone></my-dropzone>
+          </div>
+          <div class="row align-items-center mt-4">
+            <div class="col-60">
+              <div class="form-check">
+                <input class="form-check-input" id="active" formControlName="active" type="checkbox" name="active">
+                <label class="form-check-label mb-0" for="active">Active</label>
+              </div>
+            </div>
+            <div class="col-60">
+              <input class="btn btn-secondary btn-block btn-shadow" type="submit" formControlName="submit"
+                     name="submit">
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

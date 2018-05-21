@@ -1,0 +1,125 @@
+<div class="row justify-content-center-dis">
+  <div class="col-xxl-40 col-xl-70">
+    <div class="form-group">
+      <a class="btn btn-warning btn-sm"
+         [routerLink]="['/apps', 'page', appId, 'content', 'page', contentBundle]">Back</a>
+    </div>
+    <div class="card">
+      <div class="card-header">
+        <h4 class="mb-0">Add Content Unit</h4>
+      </div>
+      <div class="card-body">
+        <!-- <div class="row"> -->
+        <form [formGroup]="createContentUnitForm" (ngSubmit)="onSubmit(createContentUnitForm)">
+          <div class="form-group">
+            <label>
+              Data: <span class="text-danger fs-20">*</span>
+            </label>
+            <my-dropzone [options]="archiveOptions" ngbTooltip="This is required field" triggers="manual"
+                         #tooltipData="ngbTooltip" placement="right" tooltip-border="danger"></my-dropzone>
+          </div>
+          <div class="form-group">
+            <label for="name">
+              Name: <span class="text-danger fs-20">*</span>
+            </label>
+            <input class="form-control" id="name" formControlName="name" type="text" name="name"
+                   placeholder="Enter the name" ngbTooltip appValidate required>
+          </div>
+          <div class="form-group">
+            <label for="type">
+              Type:
+            </label>
+            <input class="form-control" id="type" formControlName="type" type="text" name="type"
+                   placeholder="Enter the type" ngbTooltip appValidate>
+          </div>
+          <div class="form-group">
+            <label for="tags">
+              Tags:
+            </label>
+            <input class="form-control" id="tags" formControlName="tags" type="text" name="tags"
+                   placeholder="Enter tags" ngbTooltip appValidate>
+          </div>
+          <div class="form-group">
+            <label for="order">
+              Order:
+            </label>
+            <input class="form-control" id="order" formControlName="order" type="text" name="order"
+                   placeholder="Enter an order" ngbTooltip appValidate>
+          </div>
+          <div class="form-group">
+            <label for="version">
+              Version:
+            </label>
+            <input class="form-control" [attr.disabled]="apiLevelDisabled ? '': null" id="version"
+                   formControlName="version" type="text" name="version" placeholder="Enter the version" ngbTooltip
+                   appValidate>
+          </div>
+          <div class="form-group">
+            <label for="apiLevel">
+              ApiLevel:
+            </label>
+            <input class="form-control" id="apiLevel" formControlName="apiLevel" type="text" name="apiLevel"
+                   placeholder="Enter the api level" ngbTooltip appValidate>
+          </div>
+          <div class="form-group">
+            <label for="priceLevel">
+              Price level:
+            </label>
+            <input class="form-control" id="priceLevel" formControlName="priceLevel" type="text" name="priceLevel"
+                   placeholder="Enter the price level" ngbTooltip appValidate>
+          </div>
+          <div class="form-group">
+            <label for="status">
+              Status: <span class="text-danger fs-20">*</span>
+            </label>
+            <div class="select">
+              <select class="form-control" *ngIf="statuses.length > 0" id="status" formControlName="status"
+                      name="status" ngbTooltip appValidate required>
+                <option value="" disabled selected class="d-none">Choose your status</option>
+                <option *ngFor="let status of statuses" [value]="status.id">{{ status.name }}</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-group">
+            <label>
+              Icon
+            </label>
+            <div class="row align-items-center justify-content-between">
+              <div class="col-40">
+                <div class="row align-items-center height-100" *ngIf="data.icon">
+                  <div class="col-120">
+                    <div class="d-flex align-items-center">
+                      <div class="icon">
+                        <img class="icon__img" src="{{ icon.Location }}" alt="{{ data.name }} - icon">
+                        <!-- <span class="ml-2">{{ icon.Key }}</span> -->
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-120">
+                    <button class="btn btn-danger btn-shadow btn-sm" type="button" (click)="changeIcon = true">Upload
+                    </button>
+                  </div>
+                </div>
+              </div>
+              <div class="col" *ngIf="!data.icon || changeIcon">
+                <my-dropzone *ngIf="!data.icon || changeIcon"></my-dropzone>
+              </div>
+            </div>
+          </div>
+          <div class="row align-items-center mt-4">
+            <div class="col-60">
+              <div class="form-check">
+                <input class="form-check-input" id="active" formControlName="active" type="checkbox" name="active">
+                <label class="form-check-label mb-0" for="active">Active</label>
+              </div>
+            </div>
+            <div class="col-60">
+              <input class="btn btn-secondary btn-block btn-shadow" type="submit" formControlName="submit"
+                     name="submit">
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

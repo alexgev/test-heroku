@@ -2,34 +2,47 @@
  * Bootstrap
  * (sails.config.bootstrap)
  *
- * An asynchronous bootstrap function that runs just before your Sails app gets lifted.
- * > Need more flexibility?  You can also do this by creating a hook.
+ * An asynchronous bootstrap function that runs before your Sails app gets lifted.
+ * This gives you an opportunity to set up your data model, run jobs, or perform some special logic.
  *
  * For more information on bootstrapping your app, check out:
- * https://sailsjs.com/config/bootstrap
+ * http://sailsjs.org/#!/documentation/reference/sails.config/sails.config.bootstrap.html
  */
-
-module.exports.bootstrap = async function(done) {
+module.exports.bootstrap = function(cb) {
+  moment = require('moment');
+  async = require('async');
+  numeral = require('numeral');
+  Promise = require('bluebird');
+  _ = require('underscore')._;
+  Passwords = require('machinepack-passwords');
+  generatePassword = require('password-generator');
+  email = require("emailjs/email");
   fs = require('fs');
+  AdmZip = require('adm-zip');
   path = require('path');
-  // By convention, this is a good place to set up fake data during development.
-  //
-  // For example:
-  // ```
-  // // Set up fake development data (or if we already have some, avast)
-  // if (await User.count() > 0) {
-  //   return done();
-  // }
-  //
-  // await User.createEach([
-  //   { emailAddress: 'ry@example.com', fullName: 'Ryan Dahl', },
-  //   { emailAddress: 'rachael@example.com', fullName: 'Rachael Shaw', },
-  //   // etc.
-  // ]);
-  // ```
-
-  // Don't forget to trigger `done()` when this bootstrap function's logic is finished.
-  // (otherwise your server will never lift, since it's waiting on the bootstrap)
-  return done();
-
+  UUID = require('pure-uuid');
+  AWS = require('aws-sdk');
+  backup = require('mongodb-backup');
+  CronJob = require('cron').CronJob;
+  archiver = require('archiver');
+  // socketIOClient = require('socket.io-client');
+  // sailsIOClient = require('sails.io.js');
+  // io = sailsIOClient(socketIOClient);
+  AWS.config.apiVersions = {
+    s3: '2006-03-01'
+  };
+  AWS.config.update({
+    accessKeyId: sails.config.variables.accessKeyId, // process.env.AWS_ACCESS_KEY_ID,
+    secretAccessKey: sails.config.variables.secretAccessKey //process.env.AWS_SECRET_ACCESS_KEY,
+  });
+  s3 = new AWS.S3();
+  new CronJob('32 1 * * *', function() {
+    FileService.createBackUp().then(function(file){
+      console.log(file);
+    }, function(err){
+      console.log(err);
+    })
+  }, null, true, 'Europe/Moscow');
+  sails.hooks.http.app.disable('etag');
+  cb();
 };

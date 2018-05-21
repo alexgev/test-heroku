@@ -1,0 +1,37 @@
+<aside class="sidebar transition-opacity">
+  <div class="side-block">
+    <ul class="sidebar-list">
+      <li *ngFor="let page of this.pages"
+          class="sidebar-list-item"
+          [class.nav-item]="page.data.childrens"
+          [class.dropdown]="page.data.childrens"
+          routerLinkActive="active">
+        <a *ngIf="!page.data.childrens && !page.data.hide" class="sidebar-list-link"
+           [routerLink]="page.path">
+              <span class="badge badge-circle badge-sm mr-3">
+                <i class="{{page.data.icon}}"></i>
+              </span>
+          <span>{{page.data.title}}</span>
+        </a>
+        <div *ngIf="page.data.childrens && !page.data.hide" class="dropdown dropright">
+          <div class="dropdown-toggle p-0"
+               role="button"
+               data-toggle="dropdown">
+            <a class="sidebar-list-link nav-link"
+               [routerLink]="null">
+              <span class="badge badge-circle badge-sm mr-3">
+                <i class="{{page.data.icon}}"></i>
+              </span>
+              <span>{{page.data.title}}</span>
+            </a>
+            <div class="dropdown-menu">
+              <a *ngFor="let children of page.data.childrens" class="dropdown-item" routerLink="{{children.path}}">{{children.data.title}}</a>
+            </div>
+          </div>
+        </div>
+      </li>
+    </ul>
+    <sidebar-footer>
+    </sidebar-footer>
+  </div>
+</aside>
