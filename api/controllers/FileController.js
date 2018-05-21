@@ -94,6 +94,14 @@ module.exports = {
   readdir: function(req, res, next) {
     var directory = fs.readdirSync(req.param('dir'));
     res.send(directory);
+  },
+  testbackup: function(req, res, next) {
+    FileService.createBackUp()
+      .then(function(result) {
+        res.send(result);
+      }, function(err) {
+        res.serverError(err);
+      })
   }
 
 };
